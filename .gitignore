@@ -1,0 +1,12 @@
+# secrets / credentials — never commit
+.env
+*.env
+*-plain.yaml
+*-secret-plain.yaml
+kubeconfig
+*.pem
+*.key
+
+# local/system files
+.DS_Store
+*.log
