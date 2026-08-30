@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: random-metrics
+  namespace: monitoring
+  labels:
+    app: random-metrics
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: random-metrics
+  template:
+    metadata:
+      labels:
+        app: random-metrics
+    spec:
+      containers:
+        - name: random-metrics
+          image: random-metrics:v0.1.0
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8000
