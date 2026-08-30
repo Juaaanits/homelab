@@ -27,7 +27,7 @@ spec:
               subPath: alert_rules.yml
       volumes:
         - name: config-volume
-          configMap;
+          configMap:
             name: prometheus-config
         - name: rules-volume
           configMap:
