@@ -16,7 +16,7 @@ metadata:
   name: grafana
   namespace: monitoring
 spec:
-  type: NodePort
+  type: ClusterIP
   selector:
     app: grafana
   ports:
