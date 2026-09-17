@@ -1,4 +1,4 @@
-# Homelab DevSecOps Monitoring Platform
+# K3s DevSecOps & Platform Engineering Homelab
 
 A hands-on Kubernetes monitoring and DevSecOps homelab built on repurposed hardware to practice production-oriented platform engineering without paid cloud infrastructure.
 
