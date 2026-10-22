@@ -15,9 +15,48 @@ spec:
       labels:
         app: random-metrics
     spec:
+      automountServiceAccountToken: false
+
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 10001
+        runAsGroup: 10001
+
+        seccompProfile:
+          type: RuntimeDefault
+
       containers:
         - name: random-metrics
-          image: random-metrics:v0.1.0
+          image: random-metrics:v0.2.0
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8000
+
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop:
+                - ALL
+
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: 8000
+            initialDelaySeconds: 2
+            periodSeconds: 5
+
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: 8000
+            initialDelaySeconds: 5
+            periodSeconds: 10
+
+          resources:
+            requests:
+              cpu: 10m
+              memory: 32Mi
+            limits:
+              cpu: 100m
+              memory: 64Mi

@@ -10,13 +10,3 @@ spec:
   ports:
     - port: 8000
       targetPort: 8000
----
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: random-metrics
-  namespace: monitoring
-  labels:
-    app: random-metrics
-spec:
-  replicas: 1

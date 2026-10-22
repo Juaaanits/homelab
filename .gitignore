@@ -10,3 +10,8 @@ kubeconfig
 # local/system files
 .DS_Store
 *.log
+
+# Python-generated files
+__pycache__/
+*.py[cod]
+.venv/
