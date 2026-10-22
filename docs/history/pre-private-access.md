@@ -10,7 +10,7 @@ checklists. Use the root README and current roadmap for operational guidance.
 > [Grafana](https://ubuntu.tail4beac2.ts.net:9444), and
 > [Alertmanager](https://ubuntu.tail4beac2.ts.net:9445).
 > The three monitoring HTTP Ingress routes have been retired.
-> See [private access setup, validation, and rollback](docs/runbooks/private-monitoring-access.md).
+> See [private access setup, validation, and rollback](../runbooks/private-monitoring-access.md).
 > Earlier Ingress examples below describe the historical learning phase.
 
 A hands-on Kubernetes monitoring and DevSecOps homelab built on repurposed hardware to practice production-oriented platform engineering without paid cloud infrastructure.
@@ -133,7 +133,7 @@ flowchart TB
 > GHCR automation, and Terraform are being implemented progressively
 > and should not be interpreted as already completed.
 
-![Target DevSecOps Architecture](docs/images/Homelab-DevSecOps-Monitoring-Architecture.png)
+![Target DevSecOps Architecture](../images/Homelab-DevSecOps-Monitoring-Architecture.png)
 
 ```mermaid
 flowchart LR

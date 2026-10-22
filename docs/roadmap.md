@@ -159,4 +159,3 @@ I will consider the portfolio version complete when:
 - [x] architecture and troubleshooting are documented
 
 ---
-
