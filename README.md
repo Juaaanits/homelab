@@ -1,5 +1,13 @@
 # K3s DevSecOps & Platform Engineering Homelab
 
+> **Access update (2026-10-22):** Monitoring UIs now use private Tailscale HTTPS:
+> [Prometheus](https://ubuntu.tail4beac2.ts.net:9446),
+> [Grafana](https://ubuntu.tail4beac2.ts.net:9444), and
+> [Alertmanager](https://ubuntu.tail4beac2.ts.net:9445).
+> The three monitoring HTTP Ingress routes have been retired.
+> See [private access setup, validation, and rollback](docs/runbooks/private-monitoring-access.md).
+> Earlier Ingress examples below describe the historical learning phase.
+
 A hands-on Kubernetes monitoring and DevSecOps homelab built on repurposed hardware to practice production-oriented platform engineering without paid cloud infrastructure.
 
 > **Current status:** Prometheus, Grafana, Alertmanager, node-exporter, Traefik Ingress, and a custom Python metrics exporter are operational on a single-node k3s cluster. Helm, CI security scanning, Argo CD, Kyverno, Sealed Secrets, and Terraform are the next phases.
