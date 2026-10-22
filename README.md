@@ -232,56 +232,118 @@ for temporary access afterward.
 
 ## Roadmap
 
-This is the project's only progress checklist. Completed items describe work
-already implemented; unchecked items are planned work.
+This is the project's only progress checklist. Checked items are implemented
+learning milestones; unchecked items remain planned. Earlier Ingress work is
+retained as a completed exercise, while private HTTPS is the current access path.
 
-### Foundations and monitoring
+### Phase 1 — Host and remote administration
 
-- [x] Set up Ubuntu, SSH, and remote development.
-- [x] Build a Compose monitoring stack and migrate it to k3s.
-- [x] Deploy Prometheus, Grafana, Alertmanager, and node-exporter.
-- [x] Configure Service DNS, alert rules, and Telegram notifications.
-- [x] Practice Ingress routing and replace monitoring UI exposure with private HTTPS.
-- [x] Build and deploy the custom exporter with probes and workload restrictions.
-- [ ] Verify access fails on a client disconnected from Tailscale.
+- [x] Repurpose hardware and install Ubuntu Server.
+- [x] Configure SSH and VS Code Remote SSH.
+- [x] Practice Linux permissions, processes, and network troubleshooting.
+
+### Phase 2 — Docker and initial monitoring
+
+- [x] Build the Compose stack with Prometheus, Grafana, and node-exporter.
+- [x] Build the Python exporter image.
+- [x] Use volumes, service networking, and environment-based configuration.
+- [x] Stop the old Compose stack after migrating monitoring to Kubernetes.
+
+### Phase 3 — Kubernetes fundamentals
+
+- [x] Install k3s and configure kubectl.
+- [x] Deploy monitoring workloads in the monitoring namespace.
+- [x] Use Deployments, a DaemonSet, ConfigMaps, Secrets, and Services.
+- [x] Add Grafana persistent storage.
+- [x] Configure alert rules and Telegram notifications.
+- [x] Exercise an outage and confirm alert delivery and recovery.
+
+### Phase 4 — Networking and private access
+
+- [x] Practice Traefik Ingress and sslip.io hostname routing.
+- [x] Verify Service DNS, selectors, and EndpointSlices.
+- [x] Replace the unnecessary Grafana NodePort with ClusterIP.
+- [x] Configure loopback proxy and private Tailscale HTTPS access.
+- [x] Verify phone access over mobile data and Grafana login.
+- [x] Retire old monitoring HTTP Ingress routes and conflicting Serve listener.
+- [ ] Verify private URLs fail with Tailscale disconnected on the client.
 - [ ] Review tailnet permissions for intended users and devices.
 
-### Helm packaging — next milestone
+### Phase 5 — Custom workload and hardening
 
-- [ ] Complete `Chart.yaml` and `values.yaml`.
-- [ ] Template image versions, replicas, storage, resources, and Secret references.
-- [ ] Escape embedded Prometheus and Alertmanager expressions.
+- [x] Build and import random-metrics v0.2.0 into k3s/containerd.
+- [x] Deploy a single authoritative Deployment and ClusterIP Service.
+- [x] Expose /metrics and /healthz; return 404 for unknown paths.
+- [x] Verify exporter scraping and the custom metric in Prometheus.
+- [x] Set scrape and evaluation intervals to 15 seconds.
+- [x] Add readiness and liveness probes.
+- [x] Configure CPU and memory requests and limits.
+- [x] Run as non-root UID/GID 10001 with RuntimeDefault seccomp.
+- [x] Use a read-only root filesystem, drop capabilities, and block privilege escalation.
+- [x] Disable automatic service-account token mounting.
+
+### Phase 6 — Helm packaging — next milestone
+
+- [ ] Complete Chart.yaml and values.yaml using the required filenames.
+- [ ] Template images/tags, replicas, storage, resources, and Secret references.
+- [ ] Use release namespace and consistent labels in templates.
+- [ ] Escape Prometheus alert expressions and Alertmanager message templates.
 - [ ] Remove the invalid reference SealedSecret and empty placeholders.
-- [ ] Pass Helm lint, render checks, and Kubernetes schema validation.
-- [ ] Migrate existing resources to Helm ownership while preserving Grafana data.
+- [ ] Pass helm lint and inspect helm template output.
+- [ ] Validate rendered Kubernetes resources against API schemas.
+- [ ] Plan and test Helm ownership migration while preserving Grafana data.
 
-### CI and image delivery
+### Phase 7 — CI and image delivery
 
-- [ ] Validate application behavior and rendered manifests in GitHub Actions.
-- [ ] Scan for secrets and known vulnerabilities.
-- [ ] Build and publish identifiable exporter images to GHCR.
-- [ ] Replace manual image imports and pin third-party image versions.
+- [ ] Add GitHub Actions checks for application behavior and syntax.
+- [ ] Lint/render Helm and validate rendered manifests in CI.
+- [ ] Add secret scanning and Trivy repository/image scans.
+- [ ] Build the exporter and publish identifiable images to GHCR.
+- [ ] Use minimum workflow permissions and reviewed action revisions.
+- [ ] Replace manual containerd imports with registry-based delivery.
+- [ ] Pin tested third-party image versions and trace deployments to source commits.
 
-### Secrets and GitOps
+### Phase 8 — Secrets management
 
-- [ ] Install Sealed Secrets and seal this cluster's credentials.
-- [ ] Back up controller keys and test Secret recovery.
-- [ ] Configure Argo CD with scoped ownership and reviewed initial synchronization.
-- [ ] Test drift detection, self-healing, rollback, and pruning behavior.
+- [ ] Install the Sealed Secrets controller.
+- [ ] Seal Grafana and Telegram credentials for this cluster.
+- [ ] Commit encrypted resources without exposing plaintext values.
+- [ ] Back up controller keys outside Git.
+- [ ] Test Secret restoration and document credential rotation.
 
-### Platform security and recovery
+### Phase 9 — GitOps
 
-- [ ] Introduce Kyverno policies in audit mode, then enforce reviewed rules.
-- [ ] Test accepted/rejected workloads and document narrow exceptions.
-- [ ] Assess persistence and retention for monitoring data.
-- [ ] Back up required data and cluster state; perform a restore drill.
-- [ ] Document a repeatable bootstrap and rebuild procedure.
+- [ ] Install Argo CD and connect the repository.
+- [ ] Configure a scoped project and explicit resource ownership.
+- [ ] Reconcile secrets before workloads that depend on them.
+- [ ] Review the first monitoring sync and resolve existing ownership.
+- [ ] Test drift detection and self-healing.
+- [ ] Review pruning and rollback behavior before enabling automation.
+- [ ] Use Git as the normal source of desired deployment state.
 
-### Cloud and infrastructure as code
+### Phase 10 — Policy as code
+
+- [ ] Install Kyverno and introduce policies in audit mode.
+- [ ] Check image references, standard labels, and resource settings.
+- [ ] Require appropriate non-root and privilege restrictions.
+- [ ] Document narrow exceptions for node-exporter host access.
+- [ ] Test accepted and denied manifests before enforcing policies.
+
+### Phase 11 — Persistence and recovery
+
+- [ ] Define Prometheus retention and monitoring persistence requirements.
+- [ ] Back up Grafana data, required cluster state, and sealing keys.
+- [ ] Perform a restore drill and record recovery time and data loss.
+- [ ] Document bootstrap, application rollback, and complete rebuild steps.
+- [ ] Verify access controls and required network flows during recovery.
+
+### Phase 12 — Terraform and cloud security
 
 - [ ] Define a small Terraform-managed cloud exercise and state strategy.
-- [ ] Practice least-privilege IAM, private networking, encryption, and audit logs.
-- [ ] Use CI federation and budget controls; verify complete teardown.
+- [ ] Practice least-privilege IAM, private networking, and encryption.
+- [ ] Enable audit logging and CI federation without long-lived credentials.
+- [ ] Configure budget controls and document intentionally manual steps.
+- [ ] Test repeatable provisioning and complete teardown.
 
 The portfolio target is a reproducible deployment with automated validation,
 traceable images, recoverable secrets and data, and documented operating steps.
